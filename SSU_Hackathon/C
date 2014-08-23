@@ -33,8 +33,9 @@ int main(void)
 	scanf("%d",&price);
 
 	
-	float army[4] = { 156.25, 169.02, 186.94, 206.94};   //시급
-	float army_cp[4] = {3750, 4056.66, 4486.66, 4966.66}; //월급
+	float army[4] = { 156.25, 169.02, 186.94, 206.94};   //한시간
+	float army_cp[4] = {3750, 4056.66, 4486.66, 4966.66}; //하루
+	
 	
 	int count = 0; //1시간    time interval = 3.591767(ms) 
 	int count_cp = 0; //하루  time interval = 3.084134(ms)
