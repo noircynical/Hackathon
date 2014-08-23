@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.StringTokenizer;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -21,6 +23,8 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -75,6 +79,7 @@ public class SCVActivity extends Activity {
 	private TextView detail_text = null;
 	private TextView detail_count = null;
 	private ImageView detail_image = null;
+	private TextView detail_cost= null;
 	private Button close = null;
 
 	private int itemCount = 0;
@@ -100,6 +105,13 @@ public class SCVActivity extends Activity {
 
 	private String date = null;
 	private boolean isDate = false;
+	
+	private int year, month, day;
+	private int remain_day, remain_time;
+	private int passed_day, passed_time;
+	
+	double army[] = { 156.25, 169.02, 186.94, 206.94};   //한시간
+	double army_cp[] = {3750, 4056.66, 4486.66, 4966.66}; //하루
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +138,7 @@ public class SCVActivity extends Activity {
 		detail_text = (TextView) findViewById(R.id.detail_title);
 		detail_count = (TextView) findViewById(R.id.detail_count);
 		detail_image = (ImageView) findViewById(R.id.detail_image);
+		detail_cost= (TextView)findViewById(R.id.detail_cost);
 		close = (Button) findViewById(R.id.close);
 
 		item_query.setOnClickListener(click);
@@ -145,11 +158,8 @@ public class SCVActivity extends Activity {
 					long arg3) {
 				hideResult();
 				addItem(mItems.get(arg2));
+				Log.d("scv", "position: "+Integer.toString(arg2));
 				empty_text.setVisibility(View.GONE);
-				serverCom com= new serverCom(mContext);
-				com.init(1, 1, arg2);
-				com.execute(null, null);
-//				sendServer(1, stringToJson(1, arg2));
 			}
 		});
 
@@ -166,10 +176,13 @@ public class SCVActivity extends Activity {
 		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 	}
 
-	private void showDetail(int pos, Bitmap btm) {
+	private void showDetail(int pos, Bitmap btm, int time, int day) {
 		detail_layout.setVisibility(View.VISIBLE);
+		detail_layout.bringToFront();
 		detail_text.setText(selected.get(pos).title);
 		detail_image.setImageBitmap(btm);
+		detail_cost.setText(selected.get(pos).lprice+getResources().getString(R.string.currency));
+		detail_count.setText(Integer.toString(day)+getResources().getString(R.string.day)+Integer.toString(time)+getResources().getString(R.string.time));
 	}
 
 	public class LoadImage extends AsyncTask<Void, Void, Void> {
@@ -178,6 +191,7 @@ public class SCVActivity extends Activity {
 		String str;
 		Bitmap bit;
 		int pos;
+		int cost;
 
 		LoadImage(Context context) {
 			mContext = context;
@@ -186,6 +200,11 @@ public class SCVActivity extends Activity {
 		public void init(String str, int pos) {
 			this.str = str;
 			this.pos = pos;
+			
+			remain_day= 0;
+			remain_time= 0;
+			passed_day= 0;
+			passed_time= 0;
 		}
 
 		protected void onPreExecute() {
@@ -199,6 +218,52 @@ public class SCVActivity extends Activity {
 			try {
 				bit = BitmapFactory.decodeStream((new URL(str))
 						.openConnection().getInputStream());
+				
+				int cost= Integer.parseInt(selected.get(pos).lprice);
+				int saved= cost;
+				
+				boolean isFinished= false;
+				Date start= new Date(year, month, day);
+				Date now= new Date();
+				int days= Days.daysBetween(new DateTime(start), new DateTime(now)).getDays();
+				int interval_times= days*24;
+				
+				while(passed_time < interval_times){
+					passed_time++;
+					if(passed_time <= 24*90 && saved > 0)
+						saved-=156.25;
+					else if(passed_time <= 300*24 && saved > 0)
+						saved-=169.02;
+					else if(passed_time <= 510*24 && saved > 0)
+						saved-=186.94;
+					else if(passed_time <= 630*24 && saved > 0)
+						saved-=206.94;
+					if(saved<0){
+						isFinished= true;
+						break;
+					}
+				}
+				
+				passed_day= passed_time/24;
+				
+				if(!isFinished){
+					remain_time= passed_time;
+					while(saved>0){
+						remain_time++;
+						if(passed_time <= 24*90 && saved > 0)
+							saved-=156.25;
+						else if(passed_time <= 300*24 && saved > 0)
+							saved-=169.02;
+						else if(passed_time <= 510*24 && saved > 0)
+							saved-=186.94;
+						else if(passed_time <= 630*24 && saved > 0)
+							saved-=206.94;
+					}
+					
+					remain_day= (remain_time-passed_time)/24;
+					remain_time %= 24;
+				}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -208,7 +273,7 @@ public class SCVActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			dialog.dismiss();
-			showDetail(pos, bit);
+			showDetail(pos, bit, remain_time, remain_day);
 		}
 	}
 
@@ -356,8 +421,13 @@ public class SCVActivity extends Activity {
 							getResources().getString(R.string.no_date),
 							Toast.LENGTH_SHORT).show();
 				} else {
-					if (!isDate)
+					if (!isDate){
 						date = date_edit.getText().toString();
+						StringTokenizer token= new StringTokenizer(date, "-");
+						year= Integer.parseInt(token.nextToken());
+						month= Integer.parseInt(token.nextToken());
+						day= Integer.parseInt(token.nextToken());
+					}
 					String str = item_query.getText().toString();
 					// item_query.setText("");
 					str = str.replaceAll(" ", "");
@@ -566,7 +636,7 @@ public class SCVActivity extends Activity {
 			HttpClient client = new DefaultHttpClient(httpParams);
 
 			HttpPost request = new HttpPost(url);
-			request.setEntity(new ByteArrayEntity(obj.toString().getBytes("UTF8")));
+			request.setEntity(new ByteArrayEntity(obj.toString().getBytes("UTF-8")));
 			HttpResponse response = client.execute(request);
 		}
 		catch (UnsupportedEncodingException e) {

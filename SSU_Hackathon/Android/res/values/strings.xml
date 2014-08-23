@@ -14,4 +14,7 @@
 	<string name="cancel">취소하기</string>
 	<string name="close">닫기</string>
 	<string name="no_date">날짜를 입력해 주십시오</string>
+	<string name="currency">원</string>
+	<string name="day">일</string>
+	<string name="time">시간</string>
 </resources>
