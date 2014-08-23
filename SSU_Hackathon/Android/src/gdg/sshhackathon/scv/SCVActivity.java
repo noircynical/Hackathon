@@ -277,12 +277,6 @@ public class SCVActivity extends Activity {
 		}
 	}
 
-	private void hideKeyboard() {
-
-		// imm.hideSoftInputFromWindow(searchTxt.getWindowToken(), 0);
-
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
