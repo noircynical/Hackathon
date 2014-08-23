@@ -3,7 +3,8 @@
     android:id="@+id/ui_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#fffacd" >
 
     <ViewAnimator
         android:id="@+id/setting_animator"
@@ -17,7 +18,7 @@
             android:id="@+id/setting_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fa8072"
+            android:background="#ffe4e1"
             android:onClick="onNothing" >
 
             <RelativeLayout
@@ -32,6 +33,7 @@
                     android:id="@+id/date_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/start_date"
@@ -42,10 +44,8 @@
                     android:layout_width="400dp"
                     android:layout_height="match_parent"
                     android:layout_alignBottom="@+id/date_text"
-                    android:layout_alignTop="@+id/date_text"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/date_text"
-                    android:background="#880000ff"
                     android:editable="true" />
             </RelativeLayout>
 
@@ -69,24 +69,24 @@
 
                 <EditText
                     android:id="@+id/item_query"
-                    android:layout_width="match_parent"
-                    android:layout_height="80px"
+                    android:layout_width="650px"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/select_item_text"
                     android:layout_marginTop="20dp"
-                    android:background="#880000ff"
                     android:editable="true"
                     android:focusable="true"
                     android:focusableInTouchMode="true" />
 
                 <ImageView
                     android:id="@+id/search_go"
-                    android:layout_width="80dp"
+                    android:layout_width="150px"
                     android:layout_height="match_parent"
                     android:layout_alignBottom="@+id/item_query"
                     android:layout_alignParentRight="true"
                     android:layout_alignTop="@+id/item_query"
-                    android:background="#88ff0000" />
+                    android:background="#9370db" 
+                    android:text="@string/searchgo"/>
             </RelativeLayout>
         </RelativeLayout>
     </ViewAnimator>
@@ -96,14 +96,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/setting_animator"
-        android:background="#66000000" />
+        android:background="#66ffffff" />
 
     <ViewAnimator
         android:id="@+id/list_animator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:background="#ffa500"
+        android:background="#ffffe0"
         android:onClick="onNothing" >
 
         <RelativeLayout

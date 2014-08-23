@@ -19,8 +19,7 @@
         android:id="@+id/touch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:background="#880000ff" >
+        android:layout_alignParentLeft="true" >
 
         <TextView
             android:id="@+id/text1"

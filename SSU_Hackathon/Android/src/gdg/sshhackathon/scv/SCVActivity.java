@@ -297,6 +297,9 @@ public class SCVActivity extends Activity {
 			if (setting.getVisibility() == View.VISIBLE) {
 				hideSetting();
 			} else {
+				
+				if(detail_layout.getVisibility() == View.VISIBLE)
+					detail_layout.setVisibility(View.INVISIBLE);
 
 				if (list.getVisibility() == View.VISIBLE) {
 					hideResult();
@@ -421,7 +424,7 @@ public class SCVActivity extends Activity {
 							getResources().getString(R.string.no_date),
 							Toast.LENGTH_SHORT).show();
 				} else {
-					if (!isDate){
+					if (!isDate || !date_edit.getText().toString().matches("")){
 						date = date_edit.getText().toString();
 						StringTokenizer token= new StringTokenizer(date, "-");
 						year= Integer.parseInt(token.nextToken());
