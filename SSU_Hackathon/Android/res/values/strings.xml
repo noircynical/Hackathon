@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SCV</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="empty_message">아이템을 추가해주세요.</string>
+    <string name="add_item_button">add item</string>
+	<string name="too_many_items">아이템이 너무 많습니다.</string>
+</resources>
