@@ -1,0 +1,56 @@
+#include <stdio.h>
+#pragma warning(disable:4996)
+
+
+
+int calc(int x)
+{
+	//x=join_month
+	int during_month = 0;
+	int thr_result = 8;
+	during_month = thr_result - x + 12;
+
+}
+
+int main(void)
+{
+	int join_year = 0;
+	int join_month = 0;
+	int reult = 8;
+	printf("입대 날짜 입력\n");
+	scanf("%d %d", &join_year, &join_month);
+	printf("%d %d\n", join_year, join_month);
+
+	
+	if (join_year==2013)
+	{
+		calc(join_month);
+	}
+	
+	/*
+	if (join_year == 2013)
+	{
+		printf("2013\n");
+		
+		join_month = 12 - join_month;
+		printf("%d\n",join_month);
+		join_month = join_month - 3;
+		join_month = join_month * 112500;
+		printf("%d\n",join_month);
+		
+		calc_thr(join_month);
+
+	}
+	else 
+	{
+		printf("2012\n");
+	}
+	if (join_year == 2014)
+	{
+		printf("2014\n");
+	}
+	*/
+
+
+	
+}
