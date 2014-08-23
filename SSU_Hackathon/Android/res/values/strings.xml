@@ -6,4 +6,12 @@
     <string name="empty_message">아이템을 추가해주세요.</string>
     <string name="add_item_button">add item</string>
 	<string name="too_many_items">아이템이 너무 많습니다.</string>
+	<string name="start_date">입대 날짜</string>
+	<string name="select_item">아이템 고르기</string>
+	<string name="empty_query">검색어를 입력해주십시오</string>
+	<string name="searching">검색중...</string>
+	<string name="confirm">적용하기</string>
+	<string name="cancel">취소하기</string>
+	<string name="close">닫기</string>
+	<string name="no_date">날짜를 입력해 주십시오</string>
 </resources>
