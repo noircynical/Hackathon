@@ -1,0 +1,139 @@
+#include <stdio.h>
+#include <Windows.h>
+#pragma warning(disable:4996)
+
+
+/*
+int calc(int x)
+{
+	//x=join_month
+	int during_month = 0;
+	int thr_result = 8;
+	during_month = thr_result - x + 12;
+
+}
+*/
+int main(void)
+{
+	__int64 freq, start, end;
+	QueryPerformanceFrequency((LARGE_INTEGER*)(&freq));
+	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+
+	int join_year = 0;
+	int join_month = 0;
+	int join_date = 0;
+	int reult = 8;
+	int price = 0;
+
+	printf("입대 날짜 입력\n");
+	scanf("%d %d %d", &join_year, &join_month, &join_date);
+	printf("%d %d %d\n", join_year, join_month, join_date);
+	
+	printf("가격\n");
+	scanf("%d",&price);
+
+	
+	float army[4] = { 156.25, 169.02, 186.94, 206.94};   //한시간
+	float army_cp[4] = {3750, 4056.66, 4486.66, 4966.66}; //하루
+	
+	
+	int count = 0; //1시간    time interval = 3.591767(ms) 
+	int count_cp = 0; //하루  time interval = 3.084134(ms)
+
+	//하루 기준   time interval = 3.084134(ms)
+	
+	while (true)
+	{
+		count_cp++;
+		if (count_cp <= 90)
+		{
+			price -= army_cp[0];
+			printf("이병 price:%d count:%d\n", price, count_cp);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+		else if (count_cp <= 300)
+		{
+			price -= army_cp[1];
+			printf("일병 price:%d count:%d\n", price, count_cp);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+		else if (count_cp <= 510)
+		{
+			price -= army_cp[2];
+			printf("상병 price:%d count:%d\n", price, count_cp);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+		else if (count_cp <= 630)
+		{
+			price -= army_cp[3];
+			printf("병장 price:%d count:%d\n", price, count_cp);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+	
+	}
+	
+		//한 시간 기준 	 time interval = 3.591767(ms)
+	/*
+	while (true)
+	{
+		count++;
+		if (count <= 90 * 24)
+		{
+			price -= army[0];
+			printf("이병:%d count:%d\n",price,count);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+
+		else if (count <= 300 * 24)
+		{
+			price -= army[1];
+			printf("일병:%d count:%d\n",price,count);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+		else if (count <= 510 * 24)
+		{
+			price -= army[2];
+			printf("상병:%d count:%d\n",price,count);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+		else if (count <= 630 * 24)
+		{
+			price -= army[3];
+			printf("병장:%d count:%d\n",price,count);
+			if (price < 0)
+			{
+				break;
+			}
+		}
+		
+	}
+	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+	printf("time interval = %f(ms)\n", (double)(end - start) / freq);
+	return 0;
+	*/
+	
+
+
+
+}
